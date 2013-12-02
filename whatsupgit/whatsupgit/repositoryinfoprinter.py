@@ -29,13 +29,13 @@ class RepositoryInfoPrinter(object):
         if not self.repo_info.has_workingtree_changes and not self.repo_info.has_index_changes:
             return
 
-        print "\n# %s" % self.repo_info.path
+        print "\n## %s" % self.repo_info.path
 
         template = "%(color_new)s New %(new)s %(color_end)s" + \
                    " %(color_modified)s Modified %(modified)s %(color_end)s" + \
                    " %(color_del)s Deleted %(del)s %(color_end)s"
         if self.repo_info.has_workingtree_changes:
-            print "## Working Directory: " + \
+            print "### Working Directory: " + \
                   template % {'new': c_wt_n,
                               'modified': c_wt_m,
                               'del': c_wt_d,
@@ -46,7 +46,7 @@ class RepositoryInfoPrinter(object):
                               }
 
         if self.repo_info.has_index_changes:
-            print "## Index            : " + \
+            print "### Index            : " + \
             template % {'new': c_i_n,
                         'modified': c_i_m,
                         'del': c_i_d,

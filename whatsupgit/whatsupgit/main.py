@@ -4,9 +4,15 @@ __author__ = 'Kristin Kuche'
 from repofinder import RepositoryFinder
 from repositoryinfo import RepositoryInfo
 from repositoryinfoprinter import RepositoryInfoPrinter
+from optparse import OptionParser, Option
+import os
 
 def main():
-    start_dir = '/home/krissi/projects/'
+    parser = OptionParser()
+    parser.add_option("-p", "", dest='path', help="Please specify path.",default='')
+    (options, args) = parser.parse_args()
+    start_dir = options.path or os.getcwd()
+    print "# Git Repositories with changes under: " + start_dir
     finder = RepositoryFinder(start_dir)
     repo_paths = finder.find()
     repo_infos = []

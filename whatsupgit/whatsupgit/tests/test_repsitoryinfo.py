@@ -3,15 +3,6 @@ __author__ = 'Kristin Kuche'
 
 import unittest
 from whatsupgit.repositoryinfo import RepositoryInfo
-from pygit2 import (Repository,
-                    GIT_STATUS_CURRENT,
-                    GIT_STATUS_INDEX_NEW,
-                    GIT_STATUS_INDEX_MODIFIED,
-                    GIT_STATUS_INDEX_DELETED,
-                    GIT_STATUS_WT_NEW,
-                    GIT_STATUS_WT_MODIFIED,
-                    GIT_STATUS_WT_DELETED
-                    )
 
 
 class TestRepositoryInfo(unittest.TestCase):
