@@ -17,13 +17,17 @@ class RepositoryFinder(object):
         for dir_name, dir_names, file_names in os.walk(self.start_dir):
             git_dir = ""
             try:
-                git_dir = discover_repository(dir_name)
+                if '.git' in dir_name.split(os.sep)[-1:]:
+                    git_dir = dir_name + os.sep
+                    del dir_names[:]  # do not go to subdirs
             except KeyError:
                 pass
-            else:
+            if not git_dir == '':
                 found.add(git_dir)
-            if '.git' in dir_names:
-                # don't go into any .git directories.
-                dir_names.remove('.git')
+
+            # don't go into hidden directories.
+            hidden_dirs = filter(lambda name: '.' in name and not '.git' == name, dir_names)
+            for hidden_dir in hidden_dirs:
+                dir_names.remove(hidden_dir)
 
         return found
