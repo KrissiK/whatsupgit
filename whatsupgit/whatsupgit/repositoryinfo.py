@@ -58,3 +58,8 @@ class RepositoryInfo(object):
                 self.count_index_deleted += 1
             elif flags == GIT_STATUS_WT_DELETED:
                 self.count_wt_deleted += 1
+
+    def get_current_branch_name(self):
+        head = self._repo.head
+        head_name = head.name.split('/')[-1:]
+        return head_name[0]

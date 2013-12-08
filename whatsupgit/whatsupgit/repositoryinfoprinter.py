@@ -29,7 +29,12 @@ class RepositoryInfoPrinter(object):
         if not self.repo_info.has_workingtree_changes and not self.repo_info.has_index_changes:
             return
 
-        print "\n## %s" % self.repo_info.path
+        headline = "\n## %(repo_path)s (%(color_highlight)s%(repo_current_branch)s%(color_end)s)"
+        print headline % {'repo_path': self.repo_info.path,
+                          'repo_current_branch': self.repo_info.get_current_branch_name(),
+                          'color_highlight': bcolors.WARNING,
+                          'color_end': bcolors.ENDC
+                          }
 
         template = "%(color_new)s New %(new)s %(color_end)s" + \
                    " %(color_modified)s Modified %(modified)s %(color_end)s" + \
