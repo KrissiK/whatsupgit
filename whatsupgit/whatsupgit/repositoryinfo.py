@@ -71,7 +71,6 @@ class RepositoryInfo(object):
         """ determines if current head is the same commit as the remote commit
         """
         if self._repo.head_is_detached:
-            print "Detached head"
             return False
         current_branch_name = self.current_branch_name
         head = self._repo.head
@@ -80,3 +79,6 @@ class RepositoryInfo(object):
             return remote_branch.target.hex == head.target.hex
         return False
 
+    @property
+    def is_head_detached(self):
+        return self._repo.head_is_detached

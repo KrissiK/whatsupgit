@@ -33,6 +33,11 @@ class RepositoryInfoPrinter(object):
         push = ''
         if not needs_push:
             push = ' push'
+
+        detached_head = self.repo_info.is_head_detached
+        if detached_head:
+            push = ' detached head'
+
         headline = "\n## %(repo_path)s (%(color_highlight)s%(repo_current_branch)s%(color_end)s)  %(color_push)s%(push)s %(color_end)s"
         print headline % {'repo_path': self.repo_info.path,
                           'repo_current_branch': self.repo_info.current_branch_name,
