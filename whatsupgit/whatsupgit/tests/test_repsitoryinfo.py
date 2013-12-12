@@ -11,6 +11,7 @@ import shutil
 class TestRepositoryInfo(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        print "setup"
         base_path = "/tmp"
         repo_name = "Spoon-Knife"
         cls.repo_path = os.path.join(base_path, repo_name)
@@ -21,6 +22,7 @@ class TestRepositoryInfo(unittest.TestCase):
 
     def setUp(self):
         git = sh.git.bake(_cwd=self.__class__.repo_path)
+        git.checkout('master')
         git.reset('7f4505682033eda1aa5771cf7faa7fabdfb32172', '--hard')
         git.clean('-f')  # remove all files from Working Tree that are not in commit 7f45
         self.git = git
@@ -29,11 +31,11 @@ class TestRepositoryInfo(unittest.TestCase):
     def test_head_name(self):
         self._create_new_file_in_working_tree()
         self.assertIn('test.txt', self.git.status())
-        self.assertEqual('master', self.repo_under_test.get_current_branch_name())
+        self.assertEqual('master', self.repo_under_test.current_branch_name)
 
     def test_head_name_switchedBranch(self):
         self.git.checkout('-b', 'development')
-        self.assertEqual('development', self.repo_under_test.get_current_branch_name())
+        self.assertEqual('development', self.repo_under_test.current_branch_name)
 
     def test_path(self):
         self.assertIsNotNone(self.repo_under_test)
@@ -52,3 +54,14 @@ class TestRepositoryInfo(unittest.TestCase):
         new_file = open(path, 'w+')
         new_file.write(content)
         new_file.close()
+
+    def test_isHeadUpstreamBranch_oneCommitAhead_ReturnsFalse(self):
+        self._create_new_file_in_working_tree(file_name='test.txt')
+        self.git.add('test.txt')
+        self.git.commit('-m', '"Test Commit"')
+        result = self.repo_under_test.is_head_upstream_branch
+        self.assertFalse(result)
+
+    def test_isHeadUpstreamBranch_noAdditionalCommit_ReturnsTrue(self):
+        result = self.repo_under_test.is_head_upstream_branch
+        self.assertTrue(result)

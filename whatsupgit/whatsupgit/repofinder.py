@@ -26,7 +26,7 @@ class RepositoryFinder(object):
                 found.add(git_dir)
 
             # don't go into hidden directories.
-            hidden_dirs = filter(lambda name: '.' in name and not '.git' == name, dir_names)
+            hidden_dirs = filter(lambda name: name.startswith('.') and not '.git' == name, dir_names)
             for hidden_dir in hidden_dirs:
                 dir_names.remove(hidden_dir)
 

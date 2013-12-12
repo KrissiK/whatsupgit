@@ -59,7 +59,24 @@ class RepositoryInfo(object):
             elif flags == GIT_STATUS_WT_DELETED:
                 self.count_wt_deleted += 1
 
-    def get_current_branch_name(self):
+    @property
+    def current_branch_name(self):
+        # ToDo: Why does self._repo.head.shorthand not work?
         head = self._repo.head
         head_name = head.name.split('/')[-1:]
         return head_name[0]
+
+    @property
+    def is_head_upstream_branch(self):
+        """ determines if current head is the same commit as the remote commit
+        """
+        if self._repo.head_is_detached:
+            print "Detached head"
+            return False
+        current_branch_name = self.current_branch_name
+        head = self._repo.head
+        remote_branch = self._repo.lookup_branch(current_branch_name).upstream
+        if remote_branch:
+            return remote_branch.target.hex == head.target.hex
+        return False
+
