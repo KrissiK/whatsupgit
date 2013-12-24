@@ -20,8 +20,7 @@ Run whatsupgit without parameters to search in current directory and below for g
 
     whatsupgit -p /home/octocat/projects/
 
-
-    It returns something like:
+It returns something like:
 
     # Git Repositories with changes under: /home/octocat/projects/
 
