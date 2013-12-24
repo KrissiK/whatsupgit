@@ -10,10 +10,9 @@ class RepositoryFinder(object):
     def __init__(self, start_directory):
         self.start_dir = start_directory
 
-    def find(self):
-        """finds all repositories and return their paths
+    def find_as_generator(self):
+        """ finds all repositories
         """
-        found = set()
         for dir_name, dir_names, file_names in os.walk(self.start_dir):
             git_dir = ""
             try:
@@ -23,11 +22,9 @@ class RepositoryFinder(object):
             except KeyError:
                 pass
             if not git_dir == '':
-                found.add(git_dir)
+                yield git_dir
 
             # don't go into hidden directories.
             hidden_dirs = filter(lambda name: name.startswith('.') and not '.git' == name, dir_names)
             for hidden_dir in hidden_dirs:
                 dir_names.remove(hidden_dir)
-
-        return found

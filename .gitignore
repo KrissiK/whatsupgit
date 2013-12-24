@@ -1,3 +1,9 @@
 *.pyc
 .idea
 env
+build
+dist
+whatsupgit.egg-info
+whatsupgit/build
+whatsupgit/dist
+whatsupgit/whatsupgit.egg-info
