@@ -8,12 +8,14 @@ from pygit2 import (Repository,
                     GIT_STATUS_INDEX_DELETED,
                     GIT_STATUS_WT_NEW,
                     GIT_STATUS_WT_MODIFIED,
-                    GIT_STATUS_WT_DELETED
+                    GIT_STATUS_WT_DELETED,
+                    GIT_REF_OID,
+                    GIT_REF_SYMBOLIC
                     )
-
+from datetime import datetime
 
 class RepositoryInfo(object):
-    """ wraps an pygit2.Repository object
+    """ wraps a pygit2.Repository object
     """
 
     def __init__(self, repo_path):
@@ -78,6 +80,20 @@ class RepositoryInfo(object):
         if remote_branch:
             return remote_branch.target.hex == head.target.hex
         return False
+
+    @property
+    def last_tag(self):
+        all_references = self._repo.listall_reference_objects()
+        all_tags = []
+        for ref in all_references:
+            if ref.type == GIT_REF_OID:
+                if ref.name.startswith('refs/tags'):
+                    tag = self._repo.get(ref.target)
+                    commit = tag.get_object()
+                    if commit:
+                        date = datetime.fromtimestamp(commit.commit_time)
+                        all_tags.append('{0} {1} at {2}'.format(ref.name, tag.message, str(date)))
+        return all_tags
 
     @property
     def is_head_detached(self):

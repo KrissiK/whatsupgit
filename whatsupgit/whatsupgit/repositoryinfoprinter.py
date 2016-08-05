@@ -34,6 +34,8 @@ class RepositoryInfoPrinter(object):
         self._print_headline()
         self._print_working_dir_changes()
         self._print_index_changes()
+        print self.repo_info.last_tag
+        print "#-#" * 10
 
     @classmethod
     def _get_colors(cls):

@@ -15,6 +15,10 @@ and run
 
 (tested only on Ubuntu)
 
+If installation is not working: Maybe you are missing libffi-dev?
+
+    sudo apt-get install libffi-dev
+
 # Usage
 Run whatsupgit without parameters to search in current directory and below for git repositories. You can specify `-p` parameter to give a path as the start point of the search, e.g.
 
