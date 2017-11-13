@@ -9,7 +9,7 @@ setup(name='whatsupgit',
       author='Kristin Kuche',
       author_email='kristin.kuche@gmx.net',
       packages=['whatsupgit'],
-      install_requires=['pygit2==0.19',],
+      install_requires=['pygit2',],
       zip_safe=False,
       entry_points="""
       [console_scripts]
